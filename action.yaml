@@ -1,0 +1,24 @@
+# action.yml
+name: 'Trello-Github integration'
+author: "Lana"
+description: 'Integrate Trello and Github workflow'
+inputs:
+  trello_api_key:
+    description: 'Trello API key'
+    required: true
+  trello_api_token:
+    description: 'Trello API token'
+    required: true
+  trello_board_id:
+    description: 'Trello board id to synchronize with'
+    required: true
+#outputs:
+#  time: # id of output
+#    description: 'The time we greeted you'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.trello_api_key }}
+    - ${{ inputs.trello_api_token }}
+    - ${{ inputs.trello_board_id }}
