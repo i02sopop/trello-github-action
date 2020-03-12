@@ -31,7 +31,7 @@ sub pr_event {
 	my $url = "${uri}/repos/$ENV{'GITHUB_REPOSITORY'}/pulls";
 
 	my $actor = $ENV{'GITHUB_ACTOR'};
-	my $title = $event_data->{ref};
+	my $title = $event_data->{pull_request}->{ref};
 	my $link = $event_data->{_links}->{html}->{href};
 
 	# my $comments_url = $event_data->{pull_request}->{comments_url};
@@ -39,6 +39,7 @@ sub pr_event {
 	#print Dumper($event_data->{pull_request});
 
 	my $card;
+	print $event_data->{pull_request}->{body} . "\n";
 	my $trello_url = $event_data->{pull_request}->{body} =~ m# (https://trello.com) #g;
 	if (defined($trello_url)) {
 		$card = $trello->searchCardByShortUrl($trello_url);
