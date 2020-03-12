@@ -15,9 +15,9 @@ my $trello = Trello->new(
 	token => $trello_token);
 
 if (defined($ENV{'INPUT_TRELLO_BOARD_ID'})) {
-	$trello->board = $ENV{'INPUT_TRELLO_BOARD_ID'};
+	$trello->board($ENV{'INPUT_TRELLO_BOARD_ID'});
 } elsif (defined($ENV{'INPUT_TRELLO_BOARD_NAME'})) {
-	$trello->board = trello->searchBoard($ENV{'INPUT_TRELLO_BOARD_NAME'});
+	$trello->board(trello->searchBoard($ENV{'INPUT_TRELLO_BOARD_NAME'}));
 } else {
 	die "You have to define the board id or de board name\n";
 }
