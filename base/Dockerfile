@@ -7,4 +7,5 @@ RUN (git clone https://github.com/i02sopop/perl-trello-module.git; \
 	ls -a; \
 	perl Build.PL; \
 	./Build installdeps; \
-	./Build install)
+	./Build install; \
+	cd ..)
