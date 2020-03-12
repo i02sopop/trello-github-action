@@ -53,6 +53,8 @@ sub pr_event {
 	return unless (defined($card->{id}));
 
 	# Set the github PR in the card information.
+	my $fields = $trello->getCardCustomFields($card->{id});
+	print Dumper($fields);
 	unless ($trello->setCardCustomFieldByName($card->{id}, 'github issue link', $link)) {
 		print "Unable to set the github field\n";
 		exit(-1);
