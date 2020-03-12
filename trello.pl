@@ -42,7 +42,6 @@ sub pr_event {
 	# print $event_data->{pull_request}->{body} . "\n";
 	my ($trello_url) = ($event_data->{pull_request}->{body} =~ m{ (https://trello.com.*) });
 	if (defined($trello_url)) {
-		print "Trello url: $trello_url\n";
 		$card = $trello->searchCardByShortUrl($trello_url);
 	}
 
@@ -50,9 +49,16 @@ sub pr_event {
 		$card = $trello->searchCardByName($title);
 	}
 
+	# If we don't have a card we don't have anything to do.
 	return unless (defined($card->{id}));
 
-	print Dumper($card);
+	# Set the github PR in the card information.
+	unless ($trello->setCardCustomFieldByName($card->{id}, 'github', $link)) {
+		print "Unable to set the github field\n";
+		exit(-1);
+	}
+
+	# print Dumper($card);
 
 	# my $ref = $ENV{'GITHUB_REF'}; # something like refs/pull/4/merge.
 	# $event_data->{sender}->{id}
