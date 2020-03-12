@@ -34,15 +34,22 @@ sub pr_event {
 	my $title = $event_data->{ref};
 	my $link = $event_data->{_links}->{html}->{href};
 
-	my $comments_url = $event_data->{pull_request}->{comments_url};
-	my $comments = decode_json(`curl -sSL -H "$auth_header" -H "$api_header" "$comments_url"`);
-	print Dumper($comments);
+	# my $comments_url = $event_data->{pull_request}->{comments_url};
+	#my $comments = decode_json(`curl -sSL -H "$auth_header" -H "$api_header" "$comments_url"`);
+	#print Dumper($event_data->{pull_request});
 
-	my $card = $trello->searchCardByName($title);
-	unless (defined($card->{id})) {
-		print "Card $title not found";
-		return;
+	my $card;
+	my $trello_url = $event_data->{pull_request}->{body} =~ m# (https://trello.com) #g;
+	if (defined($trello_url)) {
+		$card = $trello->searchCardByShortUrl($trello_url);
 	}
+
+	unless (defined($card->{id})) {
+		print "$title\n";
+		$card = $trello->searchCardByName($title);
+	}
+
+	return unless (defined($card->{id}));
 
 	print Dumper($card);
 
