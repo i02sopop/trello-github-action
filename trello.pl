@@ -40,7 +40,7 @@ sub pr_event {
 
 	my $card;
 	# print $event_data->{pull_request}->{body} . "\n";
-	if ($event_data->{pull_request}->{body} =~ m# (https://trello.com.*) #g;) {
+	if ($event_data->{pull_request}->{body} =~ m# (https://trello.com.*) #g) {
 		my $trello_url = $1;
 		print "$trello_url\n";
 		$card = $trello->searchCardByShortUrl($trello_url);
