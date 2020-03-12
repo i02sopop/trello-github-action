@@ -11,7 +11,10 @@ inputs:
     required: true
   trello_board_id:
     description: 'Trello board id to synchronize with'
-    required: true
+    required: false
+  trello_board_name:
+    description: 'Trello board id to synchronize with'
+    required: false
 #outputs:
 #  time: # id of output
 #    description: 'The time we greeted you'
