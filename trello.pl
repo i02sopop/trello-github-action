@@ -33,7 +33,6 @@ sub pr_event {
 	my $actor = $ENV{'GITHUB_ACTOR'};
 	my $title = $event_data->{pull_request}->{title};
 	my $link = $event_data->{pull_request}->{_links}->{html}->{href};
-	print Dumper($event_data->{pull_request}->{_links}->{html});
 
 	# my $comments_url = $event_data->{pull_request}->{comments_url};
 	# my $comments = decode_json(`curl -sSL -H "$auth_header" -H "$api_header" "$comments_url"`);
@@ -54,7 +53,7 @@ sub pr_event {
 	return unless (defined($card->{id}));
 
 	# Set the github PR in the card information.
-	unless ($trello->setCardCustomFieldByName($card->{id}, 'github', $link)) {
+	unless ($trello->setCardCustomFieldByName($card->{id}, 'github issue link', $link)) {
 		print "Unable to set the github field\n";
 		exit(-1);
 	}
