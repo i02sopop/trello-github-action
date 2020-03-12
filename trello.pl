@@ -34,7 +34,7 @@ sub pr_event {
 	my $title = $event_data->{ref};
 	my $link = $event_data->{_links}->{html}->{href};
 
-	my $comments_url = $event_data->{comments_url};
+	my $comments_url = $event_data->{pull_request}->{comments_url};
 	my $comments = decode_json(`curl -sSL -H "$auth_header" -H "$api_header" "$comments_url"`);
 	for my $comment (@$comments) {
 		print Dumper($comment);
