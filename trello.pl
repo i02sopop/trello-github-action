@@ -36,11 +36,11 @@ sub pr_event {
 
 	# my $comments_url = $event_data->{pull_request}->{comments_url};
 	#my $comments = decode_json(`curl -sSL -H "$auth_header" -H "$api_header" "$comments_url"`);
-	#print Dumper($event_data->{pull_request});
+	print Dumper($event_data->{pull_request});
 
 	my $card;
 	print $event_data->{pull_request}->{body} . "\n";
-	my $trello_url = $event_data->{pull_request}->{body} =~ m# (https://trello.com) #g;
+	my $trello_url = $event_data->{pull_request}->{body} =~ m# (https://trello.com.*) #g;
 	if (defined($trello_url)) {
 		$card = $trello->searchCardByShortUrl($trello_url);
 	}
