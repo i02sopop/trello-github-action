@@ -58,6 +58,8 @@ sub pr_event {
 			unless ($trello->addCardMemberById($card->{id}, $actor->{id}));
 	}
 
+	print Dumper($event_data);
+
 	# my $url = "${uri}/repos/$ENV{'GITHUB_REPOSITORY'}/pulls";
 
 	# my $comments_url = $event_data->{pull_request}->{comments_url};
