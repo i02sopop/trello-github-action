@@ -6,4 +6,6 @@ RUN (cd perl-trello-module; \
 
 COPY trello.pl /
 
+RUN (find / -name perl)
+
 CMD [ "perl", "/trello.pl" ]

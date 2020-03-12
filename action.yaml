@@ -25,3 +25,4 @@ runs:
     - ${{ inputs.trello_api_key }}
     - ${{ inputs.trello_api_token }}
     - ${{ inputs.trello_board_id }}
+    - ${{ inputs.trello_board_name }}
