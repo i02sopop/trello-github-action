@@ -6,4 +6,4 @@ RUN (cd perl-trello-module; \
 
 COPY trello.pl /
 
-CMD [ "/usr/bin/perl", "/trello.pl" ]
+ENTRYPOINT [ "/trello.pl" ]
