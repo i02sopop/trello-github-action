@@ -28,24 +28,16 @@ our $auth_header = "Authorization: token $ENV{'GITHUB_TOKEN'}";
 
 sub pr_event {
 	my $event_data = shift;
-	my $url = "${uri}/repos/$ENV{'GITHUB_REPOSITORY'}/pulls";
 
-	my $actor = $ENV{'GITHUB_ACTOR'};
-	my $title = $event_data->{pull_request}->{title};
-	my $link = $event_data->{pull_request}->{_links}->{html}->{href};
-
-	# my $comments_url = $event_data->{pull_request}->{comments_url};
-	# my $comments = decode_json(`curl -sSL -H "$auth_header" -H "$api_header" "$comments_url"`);
-	# print Dumper($event_data->{pull_request});
-
+	# Update the trello card with the PR url.
 	my $card;
-	# print $event_data->{pull_request}->{body} . "\n";
 	my ($trello_url) = ($event_data->{pull_request}->{body} =~ m{ (https://trello.com.*) });
 	if (defined($trello_url)) {
 		$card = $trello->searchCardByShortUrl($trello_url);
 	}
 
 	unless (defined($card->{id})) {
+		my $title = $event_data->{pull_request}->{title};
 		$card = $trello->searchCardByName($title);
 	}
 
@@ -53,14 +45,24 @@ sub pr_event {
 	return unless (defined($card->{id}));
 
 	# Set the github PR in the card information.
-	my $fields = $trello->getCardCustomFields($card->{id});
-	print Dumper($fields);
+	my $link = $event_data->{pull_request}->{_links}->{html}->{href};
 	unless ($trello->setCardCustomFieldByName($card->{id}, 'github issue link', "$link")) {
 		print "Unable to set the github field\n";
 		exit(-1);
 	}
 
-	# print Dumper($card);
+	# Assign the trello card to the user that does the PR.
+	my $actor = $trello->searchMember($ENV{'GITHUB_ACTOR'});
+	if (defined($actor->{id})) {
+		die "Error assigning the card to " . $actor->{name} . "\n"
+			unless ($trello->addCardMemberById($card->{id}, $actor->{id}));
+	}
+
+	# my $url = "${uri}/repos/$ENV{'GITHUB_REPOSITORY'}/pulls";
+
+	# my $comments_url = $event_data->{pull_request}->{comments_url};
+	# my $comments = decode_json(`curl -sSL -H "$auth_header" -H "$api_header" "$comments_url"`);
+	# print Dumper($event_data->{pull_request});
 
 	# my $ref = $ENV{'GITHUB_REF'}; # something like refs/pull/4/merge.
 	# $event_data->{sender}->{id}
