@@ -1,4 +1,4 @@
-From docker.pkg.github.com/i02sopop/trello-github-action/base:latest
+From i02sopop/trello-github-action-base:latest
 
 RUN (cd perl-trello-module;
 	git pull;
