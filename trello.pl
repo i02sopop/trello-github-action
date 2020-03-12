@@ -26,21 +26,46 @@ our $uri = 'https://api.github.com';
 our $api_header = 'Accept: application/vnd.github.v3+json';
 our $auth_header = "Authorization: token $ENV{'GITHUB_TOKEN'}";
 
-# sub pr_event {
-# 	my $event_data = shift;
-# 	my $url = "${uri}/repos/$ENV{'GITHUB_REPOSITORY'}/pulls";
+sub pr_event {
+	my $event_data = shift;
+	my $url = "${uri}/repos/$ENV{'GITHUB_REPOSITORY'}/pulls";
 
+	my $actor = $ENV{'GITHUB_ACTOR'};
+	my $title = $event_data->{ref};
+	my $link = $event_data->{_links}->{html}->{href};
 
-# 	exit(-1);
-# }
+	my $comments_url = $event_data->{comments_url};
+	my $comments = decode_json(`curl -sSL -H "$auth_header" -H "$api_header" "$comments_url"`);
+	for my $comment (@$comments) {
+		print Dumper($comment);
+	}
 
-print "Environment: " . Dumper(%ENV) . "\n";
+	my $card = $trello->searchCardByName($title);
+	unless (defined($card->{id})) {
+		print "Card $title not found";
+		return;
+	}
+
+	print Dumper($card);
+
+	# my $ref = $ENV{'GITHUB_REF'}; # something like refs/pull/4/merge.
+	# $event_data->{sender}->{id}
+	# $event_data->{review_comments_url}
+	# $event_data->{labels}
+	# $event_data->{merged_by}
+	# $event_data->{review_comments}
+	# $event_data->{closed_at}
+
+	exit(-1);
+}
+
+# print "Environment: " . Dumper(%ENV) . "\n";
 my $event_name=$ENV{'GITHUB_EVENT_NAME'};
 my $event_data=decode_json(`jq --raw-output . "$ENV{'GITHUB_EVENT_PATH'}"`);
-print "Event data: " . Dumper($event_data) . "\n";
+# print "Event data: " . Dumper($event_data) . "\n";
 
-# if ($event_name eq 'pull_request') {
-# 	pr_event($event_data);
-# } else {
-# 	print "Event $event_name without action.\n";
-# }
+if ($event_name eq 'pull_request') {
+	pr_event($event_data);
+} else {
+	print "Event $event_name without action.\n";
+}
