@@ -58,7 +58,8 @@ sub pr_event {
 			unless ($trello->addCardMemberById($card->{id}, $actor->{id}));
 	}
 
-	print "In Environment: " . Dumper(%ENV) . "\n";
+	print $ENV{'GITHUB_ACTOR'};
+	# print "In Environment: " . Dumper(%ENV) . "\n";
 	#my $user_url = "${uri}/users/" . $ENV{'GITHUB_ACTOR'};
 	#print "$user_url\n";
 	#my $user_data = decode_json(`curl -sSL -H "$auth_header" -H "$api_header" "$user_url"`);
