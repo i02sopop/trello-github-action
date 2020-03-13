@@ -59,9 +59,8 @@ sub pr_event {
 	}
 
 	my $user_url = "${uri}/users/" . $ENV{'GITHUB_ACTOR'};
-	print "$user_url\n";
-	#my $user_data = decode_json(`curl -sSL -H "$auth_header" -H "$api_header" "$user_url"`);
-	#print Dumper($user_data);
+	my $user_data = decode_json(`curl -sSL -H "$auth_header" -H "$api_header" "$user_url"`);
+	print Dumper($user_data);
 
 	# my $url = "${uri}/repos/$ENV{'GITHUB_REPOSITORY'}/pulls";
 
