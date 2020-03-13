@@ -58,8 +58,8 @@ sub pr_event {
 			unless ($trello->addCardMemberById($card->{id}, $actor->{id}));
 	}
 
-	my $user_url = "${uri}/users/${actor}";
-	print "$user_url";
+	my $user_url = "${uri}/users/" . $actor->{name};
+	print "$user_url\n";
 	my $user_data = decode_json(`curl -sSL -H "$auth_header" -H "$api_header" "$user_url"`);
 	print Dumper($user_data);
 
