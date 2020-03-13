@@ -60,10 +60,10 @@ sub pr_event {
 
 	my $user_url = "${uri}/users/" . $ENV{'GITHUB_ACTOR'};
 	my $user_data = decode_json(`curl -sSL -H "$auth_header" -H "$api_header" "$user_url"`);
-	print Dumper($user_data);
 	$actor = $trello->searchMember($user_data->{email});
 	if (defined($actor->{id})) {
-		print Dumper($actor);
+		die "Error assigning the card to " . $actor->{name} . "\n"
+			unless ($trello->addCardMemberById($card->{id}, $actor->{id}));
 	}
 
 	# my $url = "${uri}/repos/$ENV{'GITHUB_REPOSITORY'}/pulls";
