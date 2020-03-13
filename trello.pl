@@ -83,10 +83,10 @@ sub pr_event {
 	exit(-1);
 }
 
-print "Out Environment: " . Dumper(%ENV) . "\n";
+# print "Out Environment: " . Dumper(%ENV) . "\n";
 my $event_name=$ENV{'GITHUB_EVENT_NAME'};
 my $event_data=decode_json(`jq --raw-output . "$ENV{'GITHUB_EVENT_PATH'}"`);
-# print "Event data: " . Dumper($event_data) . "\n";
+print "Event data: " . Dumper($event_data) . "\n";
 
 if ($event_name eq 'pull_request') {
 	pr_event($event_data);
