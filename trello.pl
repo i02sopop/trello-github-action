@@ -47,6 +47,7 @@ sub pr_event {
 	}
 
 	if (!defined($card)) {
+		print $event_data->{pull_request}->{labels} . "\n";
 		# If it has the bug label we create a card in Trello.
 		foreach my $label (@{$event_data->{pull_request}->{labels}}) {
 			print "$label\n";
@@ -122,7 +123,7 @@ sub pr_event {
 	exit(-1);
 }
 
-print "Out Environment: " . Dumper(%ENV) . "\n";
+# print "Out Environment: " . Dumper(%ENV) . "\n";
 my $event_name=$ENV{'GITHUB_EVENT_NAME'};
 my $event_data=decode_json(`jq --raw-output . "$ENV{'GITHUB_EVENT_PATH'}"`);
 #print "Event data: " . Dumper($event_data) . "\n";
