@@ -50,9 +50,8 @@ sub pr_event {
 		# If it has the bug label we create a card in Trello.
 		foreach my $label (@{$event_data->{pull_request}->{labels}}) {
 			if ($label->{name} eq 'bug') {
-				my $listId = $trello->searchList('Inbox');
-				print Dumper($listId);
-				my $res = $trello->createCard($listId,
+				my $list = $trello->searchList('Inbox');
+				my $res = $trello->createCard($list->{id},
 											  $event_data->{pull_request}->{title},
 											  $event_data->{pull_request}->{body});
 				print Dumper($res);
