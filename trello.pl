@@ -7,7 +7,7 @@ use JSON;
 use Data::Dumper;
 use Trello;
 
-die "You need to set the trello api key and the api token" unless @ARGV > 2;
+die "You need to set the trello api key and the api token" unless @ARGV > 1;
 my $trello_key = shift;
 my $trello_token = shift;
 
