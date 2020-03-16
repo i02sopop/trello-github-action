@@ -35,6 +35,13 @@ inputs:
     description: 'Trello Done column'
     required: false
     default: 'Done'
+  trello_label_bug:
+    description: 'Trello label to indicate a bug'
+    required: false
+    default: 'BUG'
+  trello_extra_labels:
+    description: 'List of extra labels to assign to trello card'
+    required: false
 #outputs:
 #  time: # id of output
 #    description: 'The time we greeted you'
