@@ -51,7 +51,7 @@ sub pr_event {
 		foreach my $label (@{$event_data->{pull_request}->{labels}}) {
 			if ($label->{name} eq 'bug') {
 				# XXX: Replace Inbox by a environment variable.
-				my $list = $trello->searchList($ENV{'TRELLO_COLUMN_INBOX'});
+				my $list = $trello->searchList($ENV{'INPUT_TRELLO_COLUMN_INBOX'});
 				my @labels = ('BUG');
 				$card = $trello->createCard($list->{id},
 											$event_data->{pull_request}->{title},
