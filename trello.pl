@@ -46,11 +46,14 @@ sub pr_event {
 		$card = $trello->searchCardByName($title);
 	}
 
-    if ($event_data->{action} eq "labeled") {
+	if (!defined($card)) {
 		# If it has the bug label we create a card in Trello.
+		foreach my $label (@{$event_data->{pull_request}->{labels}}) {
+			print "$label\n";
+		}
 	}
 
-    if ($event_data->{action} eq "unlabeled") {
+	if ($event_data->{action} eq "unlabeled") {
 		# If we remove the bug label, we need to check if the card needs to be removed.
 	}
 
