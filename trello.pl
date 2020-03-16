@@ -51,7 +51,7 @@ sub pr_event {
 		foreach my $label (@{$event_data->{pull_request}->{labels}}) {
 			if ($label->{name} eq 'bug') {
 				my $listId = $trello->searchList('Inbox');
-				print "listId: $listId\n";
+				print Dumper($listId);
 				my $res = $trello->createCard($listId,
 											  $event_data->{pull_request}->{title},
 											  $event_data->{pull_request}->{body});
