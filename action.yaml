@@ -13,8 +13,28 @@ inputs:
     description: 'Trello board id to synchronize with'
     required: false
   trello_board_name:
-    description: 'Trello board id to synchronize with'
+    description: 'Trello board name to synchronize with'
     required: false
+  trello_column_inbox:
+    description: 'Trello inbox column'
+    required: false
+    default: 'Inbox'
+  trello_column_backlog:
+    description: 'Trello backlog column'
+    required: false
+    default: 'Backlog'
+  trello_column_todo:
+    description: 'Trello To Do column'
+    required: false
+    default: 'Request'
+  trello_column_wip:
+    description: 'Trello Work in progress column'
+    required: false
+    default: 'WIP'
+  trello_column_done:
+    description: 'Trello Done column'
+    required: false
+    default: 'Done'
 #outputs:
 #  time: # id of output
 #    description: 'The time we greeted you'
@@ -24,5 +44,3 @@ runs:
   args:
     - ${{ inputs.trello_api_key }}
     - ${{ inputs.trello_api_token }}
-    - ${{ inputs.trello_board_id }}
-    - ${{ inputs.trello_board_name }}
